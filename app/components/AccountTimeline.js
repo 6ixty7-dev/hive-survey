@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 const steps = [
   {
     id: "before-browsing",
-    label: "Before Browsing",
-    description: "Sign up to discover curated fashion",
+    label: "Before browsing",
+    description: null,
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="10" cy="7" r="3" />
@@ -15,8 +15,8 @@ const steps = [
   },
   {
     id: "before-checkout",
-    label: "Before Checkout",
-    description: "Browse freely, sign up to purchase",
+    label: "Before buying",
+    description: null,
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 3h2l1.5 9h9L17 6H6" />
@@ -27,8 +27,8 @@ const steps = [
   },
   {
     id: "after-first-order",
-    label: "After First Order",
-    description: "Complete a purchase, then create your profile",
+    label: "After my first order",
+    description: null,
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="5" width="14" height="12" rx="2" />
@@ -38,8 +38,8 @@ const steps = [
   },
   {
     id: "only-if-return",
-    label: "Only If I Shop Again",
-    description: "No commitment until you're ready to return",
+    label: "Only if I come back again",
+    description: null,
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 10a6 6 0 1 1 1.5 4" />
@@ -67,16 +67,24 @@ export default function AccountTimeline({ selected, onSelect }) {
         Question 04
       </motion.p>
       <motion.h2
-        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-10 sm:mb-12 max-w-md tracking-[-0.01em]"
+        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-2 max-w-md tracking-[-0.01em]"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        When would you prefer to{" "}
+        When should an app{" "}
         <span className="italic" style={{ color: "var(--hive-gold)" }}>
-          create an account?
+          ask you to sign up?
         </span>
       </motion.h2>
+      <motion.p
+        className="text-[var(--text-secondary)] text-sm sm:text-base font-[family-name:var(--font-geist-sans)] text-center mb-10 sm:mb-12 max-w-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        We want sign-up to feel less annoying.
+      </motion.p>
 
       {/* Timeline */}
       <div className="w-full max-w-sm sm:max-w-md relative">
@@ -128,9 +136,11 @@ export default function AccountTimeline({ selected, onSelect }) {
                 >
                   {step.label}
                 </p>
-                <p className="font-[family-name:var(--font-geist-sans)] text-[12px] sm:text-[13px] text-[var(--text-secondary)] leading-relaxed">
-                  {step.description}
-                </p>
+                {step.description && (
+                  <p className="font-[family-name:var(--font-geist-sans)] text-[12px] sm:text-[13px] text-[var(--text-secondary)] leading-relaxed">
+                    {step.description}
+                  </p>
+                )}
               </div>
             </motion.button>
           ))}

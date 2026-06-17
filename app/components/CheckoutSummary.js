@@ -6,7 +6,7 @@ const summaries = [
     id: "separate-delivery",
     label: "Delivery fee shown",
     rows: [
-      { name: "Premium Dress", value: "₹2,200" },
+      { name: "Dress", value: "₹2,200" },
       { name: "Delivery", value: "₹69", subtle: false },
     ],
     total: "₹2,269",
@@ -16,15 +16,15 @@ const summaries = [
     id: "free-delivery",
     label: "Free delivery included",
     rows: [
-      { name: "Premium Dress", value: "₹2,269" },
+      { name: "Dress", value: "₹2,269" },
       {
-        name: "Delivery",
-        value: "FREE",
+        name: "🚚 Free Delivery",
+        value: "",
         accent: true,
       },
     ],
     total: "₹2,269",
-    highlight: "Free Delivery",
+    highlight: null,
   },
 ];
 
@@ -46,16 +46,24 @@ export default function CheckoutSummary({ selected, onSelect }) {
         Question 03
       </motion.p>
       <motion.h2
-        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-10 sm:mb-12 max-w-md tracking-[-0.01em]"
+        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-2 max-w-md tracking-[-0.01em]"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        Which checkout{" "}
+        Which offer{" "}
         <span className="italic" style={{ color: "var(--hive-gold)" }}>
-          feels better?
+          would you choose?
         </span>
       </motion.h2>
+      <motion.p
+        className="text-[var(--text-secondary)] text-sm sm:text-base font-[family-name:var(--font-geist-sans)] text-center mb-10 sm:mb-12 max-w-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        We want delivery costs to feel fair.
+      </motion.p>
 
       {/* Checkout cards */}
       <div className="w-full max-w-sm sm:max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">

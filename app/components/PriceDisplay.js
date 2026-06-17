@@ -8,15 +8,16 @@ const cards = [
     badge: "Final Price",
     badgeColor: "bg-emerald-500/15 text-emerald-400",
     price: "₹2,300",
-    subtext: "All inclusive",
-    tag: "What you see is what you pay",
+    subtext: "Everything included.",
+    tag: "No extra charges later.",
   },
   {
     id: "delivery-extra",
+    badge: "Product Price",
+    badgeColor: "bg-neutral-500/20 text-neutral-300",
     price: "₹2,100",
-    subtext: "Delivery at checkout",
-    subtextMuted: true,
-    tag: "Delivery calculated separately",
+    subtext: "Looks cheaper at first.",
+    tag: "Delivery charge appears later.",
   },
 ];
 
@@ -38,16 +39,24 @@ export default function PriceDisplay({ selected, onSelect }) {
         Question 02
       </motion.p>
       <motion.h2
-        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-10 sm:mb-12 max-w-md tracking-[-0.01em]"
+        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-2 max-w-md tracking-[-0.01em]"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        Which price display{" "}
+        Which would make{" "}
         <span className="italic" style={{ color: "var(--hive-gold)" }}>
-          would you prefer?
+          shopping easier?
         </span>
       </motion.h2>
+      <motion.p
+        className="text-[var(--text-secondary)] text-sm sm:text-base font-[family-name:var(--font-geist-sans)] text-center mb-10 sm:mb-12 max-w-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        We're testing how prices should be shown.
+      </motion.p>
 
       {/* Product cards container */}
       <div className="w-full max-w-sm sm:max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -136,7 +145,10 @@ export default function PriceDisplay({ selected, onSelect }) {
                 {card.subtext}
               </p>
               <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
-                <p className="text-[10px] sm:text-[11px] text-[var(--text-tertiary)] font-[family-name:var(--font-geist-sans)]">
+                <p 
+                  className="text-[10px] sm:text-[11px] font-[family-name:var(--font-geist-sans)] font-medium text-[var(--hive-gold)]"
+                  style={{ textShadow: "0 0 10px rgba(244, 197, 66, 0.4)" }}
+                >
                   {card.tag}
                 </p>
               </div>
@@ -144,6 +156,16 @@ export default function PriceDisplay({ selected, onSelect }) {
           </motion.button>
         ))}
       </div>
+
+      {/* Explanatory note below cards */}
+      <motion.p
+        className="text-[var(--text-tertiary)] text-xs sm:text-sm font-[family-name:var(--font-geist-sans)] text-center mt-8 max-w-[280px] sm:max-w-xs leading-relaxed"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        Imagine both options may cost the same in the end. We only want to know which style feels easier to understand.
+      </motion.p>
     </motion.div>
   );
 }

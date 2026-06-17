@@ -12,9 +12,6 @@ const options = [
         <p className="text-3xl sm:text-4xl font-semibold text-white font-[family-name:var(--font-geist-sans)]">
           ₹69
         </p>
-        <p className="text-[var(--text-tertiary)] text-[11px] sm:text-xs font-[family-name:var(--font-geist-sans)] mt-2">
-          Standard flat delivery fee
-        </p>
       </div>
     ),
   },
@@ -83,9 +80,6 @@ const options = [
           </span>
         </motion.div>
 
-        <p className="text-[var(--text-tertiary)] text-[10px] sm:text-[11px] font-[family-name:var(--font-geist-sans)] mt-3">
-          Hive covers part of your delivery
-        </p>
       </div>
     ),
   },
@@ -109,16 +103,24 @@ export default function DeliveryReward({ selected, onSelect }) {
         Question 05
       </motion.p>
       <motion.h2
-        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-10 sm:mb-12 max-w-md tracking-[-0.01em]"
+        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-2 max-w-md tracking-[-0.01em]"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        Which would make you{" "}
+        Which message would{" "}
         <span className="italic" style={{ color: "var(--hive-gold)" }}>
-          happier?
+          make you happier?
         </span>
       </motion.h2>
+      <motion.p
+        className="text-[var(--text-secondary)] text-sm sm:text-base font-[family-name:var(--font-geist-sans)] text-center mb-10 sm:mb-12 max-w-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        We want delivery costs to feel fair.
+      </motion.p>
 
       {/* Option cards */}
       <div className="w-full max-w-sm sm:max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -187,21 +189,7 @@ export default function DeliveryReward({ selected, onSelect }) {
         ))}
       </div>
 
-      {/* Emotional context - appears after selection */}
-      <AnimatePresence>
-        {selected === "hive-subsidy" && (
-          <motion.p
-            className="mt-8 text-center text-[var(--text-secondary)] text-xs sm:text-sm font-[family-name:var(--font-geist-sans)] max-w-sm leading-relaxed"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            Transparency builds trust. We want you to know exactly how
-            much Hive invests in your experience.
-          </motion.p>
-        )}
-      </AnimatePresence>
+
     </motion.div>
   );
 }

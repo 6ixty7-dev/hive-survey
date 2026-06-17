@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 const options = [
   {
     id: "order-first",
-    label: "Place order immediately",
-    description: "Create account later, when you're ready.",
+    label: "🛍️ Buy now, create account later",
+    description: "You can place your order immediately.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M4 8l10-4 10 4-10 4-10-4z" />
@@ -16,8 +16,8 @@ const options = [
   },
   {
     id: "account-first",
-    label: "Create account first",
-    description: "Set up your profile before placing an order.",
+    label: "🔐 Create account first",
+    description: "You must sign up before placing your order.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="14" cy="10" r="4" />
@@ -46,16 +46,24 @@ export default function OrderPreference({ selected, onSelect }) {
         Question 01
       </motion.p>
       <motion.h2
-        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-10 sm:mb-12 max-w-md tracking-[-0.01em]"
+        className="font-[family-name:var(--font-playfair)] text-[clamp(1.5rem,5.5vw,2.5rem)] leading-[1.15] font-medium text-center mb-2 max-w-md tracking-[-0.01em]"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        When buying online, which experience{" "}
+        Which would{" "}
         <span className="italic" style={{ color: "var(--hive-gold)" }}>
-          would you prefer?
+          annoy you less?
         </span>
       </motion.h2>
+      <motion.p
+        className="text-[var(--text-secondary)] text-sm sm:text-base font-[family-name:var(--font-geist-sans)] text-center mb-10 sm:mb-12 max-w-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        We want buying to feel simple.
+      </motion.p>
 
       {/* Selection cards */}
       <div className="w-full max-w-sm sm:max-w-md space-y-3 sm:space-y-4">
