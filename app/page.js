@@ -9,6 +9,8 @@ import CheckoutSummary from "./components/CheckoutSummary";
 import AccountTimeline from "./components/AccountTimeline";
 import DeliveryReward from "./components/DeliveryReward";
 import ThankYouScreen from "./components/ThankYouScreen";
+import WaitlistForm from "./components/WaitlistForm";
+import WaitlistSuccess from "./components/WaitlistSuccess";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqzzekw";
 const TOTAL_QUESTIONS = 5;
@@ -21,6 +23,12 @@ export default function Home() {
     checkoutPreference: null,
     accountTiming: null,
     deliveryPreference: null,
+  });
+  const [waitlistData, setWaitlistData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    waitlistStatus: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = back
@@ -41,18 +49,26 @@ export default function Home() {
     }
   }, [currentScreen]);
 
-  const submitToFormspree = useCallback(async () => {
+  // Submit all data to Formspree
+  const submitToFormspree = useCallback(async (waitlistStatus, waitlistInfo = {}) => {
     setIsSubmitting(true);
     try {
       await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          // Survey Answers
           orderPreference: answers.orderPreference,
           priceDisplay: answers.priceDisplay,
           checkoutPreference: answers.checkoutPreference,
           accountTiming: answers.accountTiming,
           deliveryPreference: answers.deliveryPreference,
+          // Waitlist Details
+          waitlistStatus: waitlistStatus,
+          name: waitlistInfo.name || "",
+          phone: waitlistInfo.phone || "",
+          email: waitlistInfo.email || "",
+          // Metadata
           submittedAt: new Date().toISOString(),
         }),
       });
@@ -60,17 +76,46 @@ export default function Home() {
       console.error("Submission error:", e);
     }
     setIsSubmitting(false);
-    goNext();
-  }, [answers, goNext]);
+  }, [answers]);
 
   const handleContinue = useCallback(() => {
     if (currentScreen === 5) {
-      // Last question — submit
-      submitToFormspree();
+      // Just progress to Thank You screen. Don't submit yet.
+      goNext();
     } else {
       goNext();
     }
-  }, [currentScreen, goNext, submitToFormspree]);
+  }, [currentScreen, goNext]);
+
+  const handleSkipWaitlist = useCallback(async () => {
+    await submitToFormspree(false);
+    // ThankYouScreen handles its own "done" state internally when skip is called
+  }, [submitToFormspree]);
+
+  const handleJoinWaitlist = useCallback(async (formData) => {
+    setWaitlistData({ ...formData, waitlistStatus: true });
+    await submitToFormspree(true, formData);
+    // After successful submission, go to WaitlistSuccess (screen 8)
+    setDirection(1);
+    setCurrentScreen(8);
+  }, [submitToFormspree]);
+
+  const resetSurvey = useCallback(() => {
+    setCurrentScreen(0);
+    setAnswers({
+      orderPreference: null,
+      priceDisplay: null,
+      checkoutPreference: null,
+      accountTiming: null,
+      deliveryPreference: null,
+    });
+    setWaitlistData({
+      name: "",
+      phone: "",
+      email: "",
+      waitlistStatus: false,
+    });
+  }, []);
 
   // Check if current question has an answer
   const answerKeys = [
@@ -247,7 +292,48 @@ export default function Home() {
             custom={direction}
             transition={{ type: "spring", stiffness: 150, damping: 20 }}
           >
-            <ThankYouScreen onDone={() => setCurrentScreen(0)} />
+            <ThankYouScreen
+              onUnlock={goNext}
+              onSkip={handleSkipWaitlist}
+              isSubmitting={isSubmitting}
+            />
+          </motion.div>
+        )}
+
+        {currentScreen === 7 && (
+          <motion.div
+            key="waitlist-form"
+            className="flex-1 flex flex-col"
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            custom={direction}
+            transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          >
+            <WaitlistForm
+              onJoin={handleJoinWaitlist}
+              onBack={() => {
+                setDirection(-1);
+                setCurrentScreen(6);
+              }}
+              isSubmitting={isSubmitting}
+            />
+          </motion.div>
+        )}
+
+        {currentScreen === 8 && (
+          <motion.div
+            key="waitlist-success"
+            className="flex-1 flex flex-col"
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            custom={direction}
+            transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          >
+            <WaitlistSuccess onDone={resetSurvey} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -311,21 +397,7 @@ export default function Home() {
                     : { opacity: 0.6, scale: 1 }
                 }
               >
-                {isSubmitting ? (
-                  <motion.div
-                    className="w-4 h-4 border-2 border-[var(--bg-primary)]/30 border-t-[var(--bg-primary)] rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                ) : currentScreen === TOTAL_QUESTIONS ? (
-                  "Submit"
-                ) : (
-                  "Continue"
-                )}
+                {currentScreen === TOTAL_QUESTIONS ? "Finish" : "Continue"}
                 {!isSubmitting && (
                   <svg
                     width="16"
