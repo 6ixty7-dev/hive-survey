@@ -130,11 +130,8 @@ export default function PriceDisplay({ selected, onSelect }) {
                 </span>
               </div>
               <p
-                className={`text-xs sm:text-sm mt-1.5 font-[family-name:var(--font-geist-sans)] ${
-                  card.subtextMuted
-                    ? "text-[var(--text-tertiary)]"
-                    : "text-[var(--text-secondary)]"
-                }`}
+                className="text-xs sm:text-sm mt-1.5 font-[family-name:var(--font-geist-sans)] font-medium text-[var(--hive-gold)]"
+                style={{ textShadow: "0 0 10px rgba(244, 197, 66, 0.4)" }}
               >
                 {card.subtext}
               </p>

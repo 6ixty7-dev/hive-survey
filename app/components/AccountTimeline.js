@@ -81,7 +81,7 @@ export default function AccountTimeline({ selected, onSelect }) {
       {/* Timeline */}
       <div className="w-full max-w-sm sm:max-w-md relative">
         {/* Vertical line */}
-        <div className="absolute left-[19px] sm:left-[23px] top-4 bottom-4 w-[1px] bg-[var(--border-subtle)]" />
+        <div className="absolute left-[35px] sm:left-[43px] top-[35px] bottom-[35px] sm:top-[43px] sm:bottom-[43px] w-[1px] bg-[var(--border-medium)]" />
 
         <div className="space-y-2 sm:space-y-3">
           {steps.map((step, i) => (
