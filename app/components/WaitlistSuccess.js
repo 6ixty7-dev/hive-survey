@@ -52,7 +52,7 @@ export default function WaitlistSuccess({ onDone }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Your early access spot is reserved.
+          Your spot is reserved.
         </motion.h1>
 
         {/* Subtitle */}

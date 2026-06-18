@@ -9,8 +9,10 @@ import CheckoutSummary from "./components/CheckoutSummary";
 import AccountTimeline from "./components/AccountTimeline";
 import DeliveryReward from "./components/DeliveryReward";
 import ThankYouScreen from "./components/ThankYouScreen";
+import EmotionalRevealScreen from "./components/EmotionalRevealScreen";
 import WaitlistForm from "./components/WaitlistForm";
 import WaitlistSuccess from "./components/WaitlistSuccess";
+import CuriosityCTAScreen from "./components/CuriosityCTAScreen";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqzzekw";
 const TOTAL_QUESTIONS = 5;
@@ -89,15 +91,17 @@ export default function Home() {
 
   const handleSkipWaitlist = useCallback(async () => {
     await submitToFormspree(false);
-    // ThankYouScreen handles its own "done" state internally when skip is called
+    // After skip, go to ThankYouScreen (screen 10)
+    setDirection(1);
+    setCurrentScreen(10);
   }, [submitToFormspree]);
 
   const handleJoinWaitlist = useCallback(async (formData) => {
     setWaitlistData({ ...formData, waitlistStatus: true });
     await submitToFormspree(true, formData);
-    // After successful submission, go to WaitlistSuccess (screen 8)
+    // After successful submission, go to WaitlistSuccess (screen 9)
     setDirection(1);
-    setCurrentScreen(8);
+    setCurrentScreen(9);
   }, [submitToFormspree]);
 
   const resetSurvey = useCallback(() => {
@@ -283,7 +287,7 @@ export default function Home() {
 
         {currentScreen === 6 && (
           <motion.div
-            key="thankyou"
+            key="curiosity"
             className="flex-1 flex flex-col"
             variants={pageVariants}
             initial="enter"
@@ -292,7 +296,22 @@ export default function Home() {
             custom={direction}
             transition={{ type: "spring", stiffness: 150, damping: 20 }}
           >
-            <ThankYouScreen
+            <CuriosityCTAScreen onNext={goNext} />
+          </motion.div>
+        )}
+
+        {currentScreen === 7 && (
+          <motion.div
+            key="emotional-reveal"
+            className="flex-1 flex flex-col"
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            custom={direction}
+            transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          >
+            <EmotionalRevealScreen
               onUnlock={goNext}
               onSkip={handleSkipWaitlist}
               isSubmitting={isSubmitting}
@@ -300,7 +319,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        {currentScreen === 7 && (
+        {currentScreen === 8 && (
           <motion.div
             key="waitlist-form"
             className="flex-1 flex flex-col"
@@ -315,14 +334,14 @@ export default function Home() {
               onJoin={handleJoinWaitlist}
               onBack={() => {
                 setDirection(-1);
-                setCurrentScreen(6);
+                setCurrentScreen(7);
               }}
               isSubmitting={isSubmitting}
             />
           </motion.div>
         )}
 
-        {currentScreen === 8 && (
+        {currentScreen === 9 && (
           <motion.div
             key="waitlist-success"
             className="flex-1 flex flex-col"
@@ -334,6 +353,21 @@ export default function Home() {
             transition={{ type: "spring", stiffness: 150, damping: 20 }}
           >
             <WaitlistSuccess onDone={resetSurvey} />
+          </motion.div>
+        )}
+
+        {currentScreen === 10 && (
+          <motion.div
+            key="thankyou"
+            className="flex-1 flex flex-col"
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            custom={direction}
+            transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          >
+            <ThankYouScreen onDone={resetSurvey} />
           </motion.div>
         )}
       </AnimatePresence>
